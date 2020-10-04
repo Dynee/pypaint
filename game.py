@@ -18,23 +18,29 @@ class Color(Enum):
     PURPLE = (191, 0, 255)
     PINK = (255, 0, 191)
 
-class Canvas():
-    def __init__(self, screen, width, height, pos, border=1):
+class Canvas(pygame.Rect):
+    def __init__(self, left, top, width, height, screen, border=1, children=[]): 
+        pygame.Rect.__init__(self, left, top, width, height)
         self.screen = screen
-        self.width = width
-        self.height = height
         self.border = border
-        self.pos = pos
+        self.children = children
 
     def setup(self):
-        pygame.draw.rect(self.screen, Color.BLACK.value, [self.pos[0], self.pos[1], self.width, self.height], self.border)
+        pygame.draw.rect(self.screen, Color.BLACK.value, [self.left, self.top, self.width, self.height], self.border) 
 
-    def draw(self):
+    def draw(self, color, x, y):
         """ handles drawing on the canvas """
+        if self.collidepoint(x, y):
+            pygame.draw.rect(self.screen, color, [x, y, 20, 20])
 
     def clear(self):
         """ clears the canvas of any drawings """
 
+
+class Point():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
 
 def draw_colors(screen):
@@ -56,9 +62,10 @@ def draw_colors(screen):
 
 screen.fill(Color.WHITE.value)
 colors = draw_colors(screen)
-selected_color = pygame.draw.rect(screen, Color.BLACK.value, [20, 50, 50, 50])
+selected_color_rect = pygame.draw.rect(screen, Color.BLACK.value, [20, 50, 50, 50])
+selected_color = "BLACK"
 # acts as the canvas that can be drawn on
-canvas = Canvas(screen, 465, 565, [20, 110])
+canvas = Canvas(20, 110, 465, 565, screen)
 canvas.setup()
 
 while True: 
@@ -72,7 +79,7 @@ while True:
                 if color['rect'].collidepoint(x, y):
                     selected_color = color['color']
                     selected_color_rect = pygame.draw.rect(screen, Color[selected_color].value, [20, 50, 50, 50])
-                    # draw a line between start pos and end pos
+            canvas.draw(Color[selected_color].value, x, y)
 
         if event.type == pygame.MOUSEBUTTONUP:
             drag = False
