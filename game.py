@@ -37,7 +37,7 @@ def draw_colors(screen):
 
 screen.fill(Color.WHITE.value)
 colors = draw_colors(screen)
-selected_color = "BLACK"
+selected_color = pygame.draw.rect(screen, Color.BLACK.value, [20, 300, 50, 50])
 
 while True: 
     for event in pygame.event.get():
