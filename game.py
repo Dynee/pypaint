@@ -48,8 +48,12 @@ while True:
             for color in colors:
                 if color['rect'].collidepoint(x, y):
                     selected_color = color['color']
+                    selected_color_rect = pygame.draw.rect(screen, Color[selected_color].value, [20, 300, 50, 50])
     print(selected_color)
     # flip updates the screen with what you draw
+
+    # draw the selected color rect
+    # selected_color_rect = pygame.draw.rect(screen, Color.BLACK.value, [20, 300, 50, 50])
     pygame.display.flip()
 
 pygame.quit()
