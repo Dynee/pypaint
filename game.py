@@ -24,24 +24,31 @@ def draw_colors(screen):
     draw a 20, 20 rect for each color in the colors enum
 
     """
+    colors = []
     top, left, width, height = 20, 20, 20, 20
     for color in Color:
-        pygame.draw.rect(screen, color.value, [top, left, width, height])
+        c_rect = pygame.draw.rect(screen, color.value, [top, left, width, height])
         # next rect should be 20 to the right
         top += 20
+        colors.append({'color': color.name, 'rect': c_rect})
+    return colors
+        
+        
 
+screen.fill(Color.WHITE.value)
+colors = draw_colors(screen)
+selected_color = "BLACK"
 
-
-
-while True:
+while True: 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT: sys.exit()
-   
-    screen.fill(Color.WHITE.value)
-
-    # draw colors box
-    draw_colors(screen)
-
+        if event.type == pygame.QUIT:
+            sys.exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = event.pos
+            for color in colors:
+                if color['rect'].collidepoint(x, y):
+                    selected_color = color['color']
+    print(selected_color)
     # flip updates the screen with what you draw
     pygame.display.flip()
 
