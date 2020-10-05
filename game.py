@@ -32,7 +32,7 @@ class Canvas(pygame.Rect):
         self.children = children
 
     def setup(self):
-        pygame.draw.rect(self.screen, Color("BLACK").color, [self.left, self.top, self.width, self.height], self.border) 
+        pygame.draw.rect(self.screen, Color("BLACK").color, [self.left, self.top, self.width, self.height], self.border)
 
     def draw(self, color, x, y):
         """ handles drawing on the canvas """
@@ -41,7 +41,9 @@ class Canvas(pygame.Rect):
 
     def clear(self):
         """ clears the canvas of any drawings """
-        
+        # re-draw the canvas
+        # can just call setup again? probably need to refactor that
+        self.setup()
         
 class Game():
     def __init__(self, width, height):
