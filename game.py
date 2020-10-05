@@ -1,12 +1,6 @@
 import pygame, sys
-from enum import Enum
 
 pygame.init()
-
-size = width, height = 500, 700
-
-screen = pygame.display.set_mode(size)
-
 
 class Color():
     COLORS = {
@@ -49,39 +43,44 @@ class Canvas(pygame.Rect):
         """ clears the canvas of any drawings """
         
         
+class Game():
+    def __init__(self, width, height):
+        self.screen = pygame.display.set_mode((width, height))
 
-screen.fill(Color("WHITE").color)
+    def start(self):
 
-colors = [Color("RED"), Color("BLUE"), Color("GREEN"), Color("BLACK"), Color("YELLOW"), Color("ORANGE"), Color("PURPLE"), Color("PINK")]
-color_left, color_top, color_width, color_height = 20, 20, 20, 20
-for color in colors:
-    color.draw(screen, [color_top, color_left, color_width, color_height])
-    color_top += 20
+        self.screen.fill(Color("WHITE").color)
 
-selected_color_rect = pygame.draw.rect(screen, Color("BLACK").color, [20, 50, 50, 50])
-selected_color = Color("BLACK").color
-# acts as the canvas that can be drawn on
-canvas = Canvas(20, 110, 465, 565, screen)
-canvas.setup()
+        colors = [Color("RED"), Color("BLUE"), Color("GREEN"), Color("BLACK"), Color("YELLOW"), Color("ORANGE"), Color("PURPLE"), Color("PINK")]
+        color_left, color_top, color_width, color_height = 20, 20, 20, 20
+        for color in colors:
+            color.draw(self.screen, [color_top, color_left, color_width, color_height])
+            color_top += 20
 
-while True: 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            drag = True
-            x, y = event.pos
-            for color in colors:
-                if color.rect.collidepoint(x, y):
-                    selected_color = color.color
-                    selected_color_rect = pygame.draw.rect(screen, selected_color, [20, 50, 50, 50])
-            canvas.draw(selected_color, x, y)
+        selected_color_rect = pygame.draw.rect(self.screen, Color("BLACK").color, [20, 50, 50, 50])
+        selected_color = Color("BLACK").color
+        # acts as the canvas that can be drawn on
+        canvas = Canvas(20, 110, 465, 565, self.screen)
+        canvas.setup()
 
-        if event.type == pygame.MOUSEBUTTONUP:
-            drag = False
-    # flip updates the screen with what you draw
+        while True: 
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    drag = True
+                    x, y = event.pos
+                    for color in colors:
+                        if color.rect.collidepoint(x, y):
+                            selected_color = color.color
+                            selected_color_rect = pygame.draw.rect(self.screen, selected_color, [20, 50, 50, 50])
+                    canvas.draw(selected_color, x, y)
 
-    # draw the selected color rect
-    pygame.display.flip()
+                if event.type == pygame.MOUSEBUTTONUP:
+                    drag = False        
+            pygame.display.flip()
+
+game = Game(500, 700)
+game.start()
 
 pygame.quit()
