@@ -65,22 +65,30 @@ class Game():
         # acts as the canvas that can be drawn on
         canvas = Canvas(20, 110, 465, 565, self.screen)
         canvas.setup()
+        
+        # drag keeps track of whether or not the mouse button is being dragged and pressed down
+        drag = True
 
         while True: 
             for event in pygame.event.get():
+                if drag:
+                    # draws a rectangle with the selected color
+                    mouse_x, mouse_y = pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1]
+                    canvas.draw(selected_color, mouse_x, mouse_y)
+                
                 if event.type == pygame.QUIT:
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     drag = True
                     x, y = event.pos
+                    # handles selecting a color from the pallette
                     for color in colors:
                         if color.rect.collidepoint(x, y):
                             selected_color = color.color
-                            selected_color_rect = pygame.draw.rect(self.screen, selected_color, [20, 50, 50, 50])
-                    canvas.draw(selected_color, x, y)
+                            selected_color_rect = pygame.draw.rect(self.screen, selected_color, [20, 50, 50, 50]) 
 
                 if event.type == pygame.MOUSEBUTTONUP:
-                    drag = False        
+                    drag = False
             pygame.display.flip()
 
 game = Game(500, 700)
