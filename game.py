@@ -48,17 +48,20 @@ class Game():
         self.screen = pygame.display.set_mode((width, height))
 
     def start(self):
-
+        # sets background color of game to white.
         self.screen.fill(Color("WHITE").color)
 
+        # Creates a list of Color() objects that draw themselves onto the screen
         colors = [Color("RED"), Color("BLUE"), Color("GREEN"), Color("BLACK"), Color("YELLOW"), Color("ORANGE"), Color("PURPLE"), Color("PINK")]
         color_left, color_top, color_width, color_height = 20, 20, 20, 20
         for color in colors:
             color.draw(self.screen, [color_top, color_left, color_width, color_height])
             color_top += 20
 
+        # sets the default selected color to black and draws a rectangle representing the current color selected
         selected_color_rect = pygame.draw.rect(self.screen, Color("BLACK").color, [20, 50, 50, 50])
         selected_color = Color("BLACK").color
+        
         # acts as the canvas that can be drawn on
         canvas = Canvas(20, 110, 465, 565, self.screen)
         canvas.setup()
