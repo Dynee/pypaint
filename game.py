@@ -75,7 +75,7 @@ class Game():
             for event in pygame.event.get():
                 if drag:
                     # draws a rectangle with the selected color
-                    mouse_x, mouse_y = pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1]
+                    mouse_x, mouse_y = pygame.mouse.get_pos()
                     canvas.draw(selected_color, mouse_x, mouse_y)
                 
                 if event.type == pygame.QUIT:
