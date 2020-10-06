@@ -25,11 +25,10 @@ class Color():
         self.rect = pygame.draw.rect(screen, self.color, dimensions)
 
 class Canvas(pygame.Rect):
-    def __init__(self, left, top, width, height, screen, border=1, children=[]): 
+    def __init__(self, left, top, width, height, screen, border=1): 
         pygame.Rect.__init__(self, left, top, width, height)
         self.screen = screen
         self.border = border
-        self.children = children
 
     def setup(self):
         pygame.draw.rect(self.screen, Color("BLACK").color, [self.left, self.top, self.width, self.height], self.border)
@@ -61,7 +60,7 @@ class Game():
             color_top += 20
 
         # sets the default selected color to black and draws a rectangle representing the current color selected
-        selected_color_rect = pygame.draw.rect(self.screen, Color("BLACK").color, [20, 50, 50, 50])
+        pygame.draw.rect(self.screen, Color("BLACK").color, [20, 50, 50, 50])
         selected_color = Color("BLACK").color
         
         # acts as the canvas that can be drawn on
@@ -87,7 +86,7 @@ class Game():
                     for color in colors:
                         if color.rect.collidepoint(x, y):
                             selected_color = color.color
-                            selected_color_rect = pygame.draw.rect(self.screen, selected_color, [20, 50, 50, 50]) 
+                            pygame.draw.rect(self.screen, selected_color, [20, 50, 50, 50]) 
 
                 if event.type == pygame.MOUSEBUTTONUP:
                     drag = False
